@@ -1,5 +1,14 @@
 const mongoose=require("mongoose");
-mongoose.connect("mongodb://Admin69:swapnilhero123@cluster1-shard-00-00.rpirq.mongodb.net:27017,cluster1-shard-00-01.rpirq.mongodb.net:27017,cluster1-shard-00-02.rpirq.mongodb.net:27017/?replicaSet=atlas-tmwehx-shard-0&ssl=true&authSource=admin")
+const connectDB = async () => {
+    try {
+        await mongoose.connect("mongodb://Admin69:swapnilhero123@cluster1-shard-00-00.rpirq.mongodb.net:27017,cluster1-shard-00-01.rpirq.mongodb.net:27017,cluster1-shard-00-02.rpirq.mongodb.net:27017/?replicaSet=atlas-tmwehx-shard-0&ssl=true&authSource=admin");
+        console.log("MongoDB connected successfully!");
+    } catch (error) {
+        console.error("MongoDB connection failed:", error);
+        process.exit(1);
+    }
+};
+connectDB();
 const userSchema=mongoose.Schema({
     username:{
         type:String,
@@ -28,7 +37,7 @@ const userSchema=mongoose.Schema({
         maxLength:50
     }
 })
-mongoose.model("User",userSchema);
+const User=mongoose.model("User",userSchema);
 
 const accountSchema = new mongoose.Schema({
     userId: {
