@@ -2,7 +2,7 @@ const express=require("express");
 const router=express.Router();
 const zod=require("zod");
 const jwt=require("jsonwebtoken");
-const { User } = require("../db");
+const { User,Account } = require("../db");
 const { JWT_SECRET } = require("../config");
 const {authMiddleware}=require("./middleware");
 //signup and signin routes
@@ -20,7 +20,7 @@ router.post("/signup",async function(req,res){
             message:"Email already taken/Incorect inputs"
         })
     }
-    const existingUser=User.findOne({ //This stops the duplicate user from being created.
+    const existingUser=await User.findOne({ //This stops the duplicate user from being created.
         username:body.username
     })
     if(existingUser._id){ 
